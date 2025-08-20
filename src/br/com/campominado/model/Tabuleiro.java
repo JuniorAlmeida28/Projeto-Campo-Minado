@@ -95,6 +95,7 @@ public class Tabuleiro implements CampoObservador {
         } else if (objetivoAlcancado()) {
             System.out.println("Ganhou!!! :)");
             notificarObservador(true);
+
         }
     }
     public void mostrarMinas(){
