@@ -1,7 +1,5 @@
 package br.com.campominado.model;
 
-import br.com.campominado.exception.ExplosaoException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +51,7 @@ public class Campo {
             aberto = true;
 
             if (minado){
-                throw new ExplosaoException();
+                // TODO: Implementar nova versão
             }
             if (vizinhacaSegura()){
                 vizinhos.forEach(Campo::abrir);
@@ -115,18 +113,4 @@ public class Campo {
         marcado = false;
     }
 
-    @Override
-    public String toString() {
-        if (marcado){
-            return "X";
-        } else if (aberto && minado) {
-            return "*";
-        } else if (aberto && minasNaVizinhaca() > 0) {
-            return Long.toString(minasNaVizinhaca());
-        } else if (aberto) {
-            return " ";
-        } else {
-            return "?";
-        }
-    }
 }

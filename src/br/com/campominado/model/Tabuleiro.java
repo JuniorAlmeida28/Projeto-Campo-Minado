@@ -1,7 +1,5 @@
 package br.com.campominado.model;
 
-import br.com.campominado.exception.ExplosaoException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -30,8 +28,8 @@ public class Tabuleiro {
                     .filter(c -> c.getLinha() == linhas && c .getColuna() == colunas)
                     .findFirst()
                     .ifPresent(c -> c.abrir());
-        }catch (ExplosaoException e){
-            campos.forEach(c -> c.setAberto(true));
+        }catch (Exception e){
+            // FIXME Ajustar a implementação do método abrir
             throw e;
         }
     }
@@ -79,21 +77,4 @@ public class Tabuleiro {
         sortearMinas();
     }
 
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-
-        int i = 0;
-
-        for (int l = 1; l < linhas+1; l++){
-            for (int c = 1; c < colunas+1; c++){
-                sb.append(" ");
-                sb.append(campos.get(i));
-                sb.append(" ");
-                i++;
-            }
-            sb.append("\n");
-        }
-
-        return sb.toString();
-    }
 }
