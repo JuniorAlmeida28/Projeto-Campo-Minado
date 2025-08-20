@@ -1,7 +1,5 @@
 package br.com.campominado.model;
 
-import br.com.campominado.exception.ExplosaoException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +13,20 @@ public class Campo {
     private boolean marcado;
 
     private List<Campo> vizinhos = new ArrayList<>();
+    private List<CampoObservador> observadores = new ArrayList<>();
 
     Campo(int linha, int coluna) {
         this.linha = linha;
         this.coluna = coluna;
+    }
+
+    public void registrarObservador(CampoObservador observador){
+        observadores.add(observador);
+    }
+
+    private void notificarObservador(CampoEvento evento){
+        observadores.stream()
+                .forEach(obs -> obs.eventoOcorreu(this, evento));
     }
 
     boolean adicionarVizinho(Campo vizinho) {
@@ -44,19 +52,27 @@ public class Campo {
     void alternarMarcacao(){
         if (!aberto){
             marcado = !marcado;
+
+            if (marcado){
+                notificarObservador(CampoEvento.MARCAR);
+            }else {
+                notificarObservador(CampoEvento.DESMARCAR);
+            }
         }
     }
 
     boolean abrir(){
 
         if (!aberto && !marcado){
-            aberto = true;
-
             if (minado){
-                throw new ExplosaoException();
+                notificarObservador(CampoEvento.EXPLODIR);
+                return true;
             }
+
+            setAberto(true);
+
             if (vizinhacaSegura()){
-                vizinhos.forEach(Campo::abrir);
+                vizinhos.forEach(v -> v.abrir());
             }
             return true;
         }else {
@@ -82,6 +98,10 @@ public class Campo {
 
     void setAberto(boolean aberto) {
         this.aberto = aberto;
+
+        if (aberto){
+            notificarObservador(CampoEvento.ABRIR);
+        }
     }
 
     public boolean isAberto() {
@@ -101,7 +121,7 @@ public class Campo {
 
     boolean objetivoAlcancado(){
         boolean desvendado = !minado && aberto;
-        boolean protegido = !minado && marcado;
+        boolean protegido = minado && marcado;
         return desvendado || protegido;
     }
 
@@ -115,18 +135,4 @@ public class Campo {
         marcado = false;
     }
 
-    @Override
-    public String toString() {
-        if (marcado){
-            return "X";
-        } else if (aberto && minado) {
-            return "*";
-        } else if (aberto && minasNaVizinhaca() > 0) {
-            return Long.toString(minasNaVizinhaca());
-        } else if (aberto) {
-            return " ";
-        } else {
-            return "?";
-        }
-    }
 }

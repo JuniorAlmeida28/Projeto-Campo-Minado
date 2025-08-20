@@ -1,6 +1,5 @@
 package br.com.campominado.model;
 
-import br.com.campominado.exception.ExplosaoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
