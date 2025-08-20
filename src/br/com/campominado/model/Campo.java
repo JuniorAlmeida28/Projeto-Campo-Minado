@@ -52,6 +52,7 @@ public class Campo {
     void alternarMarcacao(){
         if (!aberto){
             marcado = !marcado;
+
             if (marcado){
                 notificarObservador(CampoEvento.MARCAR);
             }else {
@@ -63,8 +64,6 @@ public class Campo {
     boolean abrir(){
 
         if (!aberto && !marcado){
-
-
             if (minado){
                 notificarObservador(CampoEvento.EXPLODIR);
                 return true;
@@ -73,7 +72,7 @@ public class Campo {
             setAberto(true);
 
             if (vizinhacaSegura()){
-                vizinhos.forEach(Campo::abrir);
+                vizinhos.forEach(v -> v.abrir());
             }
             return true;
         }else {
@@ -122,7 +121,7 @@ public class Campo {
 
     boolean objetivoAlcancado(){
         boolean desvendado = !minado && aberto;
-        boolean protegido = !minado && marcado;
+        boolean protegido = minado && marcado;
         return desvendado || protegido;
     }
 
