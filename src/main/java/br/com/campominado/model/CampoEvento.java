@@ -1,4 +1,4 @@
-package br.com.campominado.model;
+package main.java.br.com.campominado.model;
 
 public enum CampoEvento {
 

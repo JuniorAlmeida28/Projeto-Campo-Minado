@@ -1,4 +1,4 @@
-package br.com.campominado.model;
+package main.java.br.com.campominado.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

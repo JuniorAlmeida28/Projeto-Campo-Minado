@@ -1,4 +1,4 @@
-package br.com.campominado.model;
+package main.java.br.com.campominado.model;
 
 import java.util.ArrayList;
 import java.util.List;
