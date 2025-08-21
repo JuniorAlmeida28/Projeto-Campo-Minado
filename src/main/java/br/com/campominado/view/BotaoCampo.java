@@ -24,6 +24,7 @@ public class BotaoCampo extends JButton implements CampoObservador, MouseListene
     public BotaoCampo(Campo campo) {
         this.campo = campo;
         setBackground(BG_PADRAO);
+        setOpaque(true);
         setBorder(BorderFactory.createBevelBorder(0));
 
         addMouseListener(this);
@@ -56,13 +57,14 @@ public class BotaoCampo extends JButton implements CampoObservador, MouseListene
     }
 
     private void aplicarEstiloPadrao() {
+        setBackground(BG_PADRAO);
+        setText("");
     }
 
     private void applicarEstiloExplodir() {
         setBackground(BG_EXPLODIR);
-        setBorder(BorderFactory.createLineBorder(Color.RED));
         setIcon(this.bombaIcone);
-        setText(""); // Limpa o texto para exibir apenas a imagem
+        setText("");
 
     }
 
@@ -71,12 +73,17 @@ public class BotaoCampo extends JButton implements CampoObservador, MouseListene
         setText("🚩");
         setFont(new Font("Noto Color Emoji", Font.PLAIN, 18));
         setForeground(Color.RED);
-        setIcon(null); // Limpa o ícone
+        setIcon(null);
     }
 
     private void applicarEstiloAbir() {
-        setBackground(BG_PADRAO);
         setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        if (campo.isMinado()){
+            setIcon(this.bombaIcone);
+            return;
+        }
+        setBackground(BG_PADRAO);
+
 
         switch (campo.minasNaVizinhaca()){
             case 1:
