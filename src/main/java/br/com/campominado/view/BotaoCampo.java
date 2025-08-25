@@ -16,8 +16,6 @@ public class BotaoCampo extends JButton implements CampoObservador, MouseListene
     private final Color BG_EXPLODIR = new Color(189, 66, 68);
     private final Color TEXTO_VERDE = new Color(0, 100, 0);
 
-    ImageIcon bomba;
-
     private Campo campo;
     private ImageIcon bombaIcone;
 
@@ -33,8 +31,6 @@ public class BotaoCampo extends JButton implements CampoObservador, MouseListene
         URL url = getClass().getResource("/main/resources/imagens/bomba.png");
         ImageIcon iconeOriginal = new ImageIcon(url);
         Image imagemOriginal = iconeOriginal.getImage();
-
-        // Use Image.SCALE_SMOOTH para um redimensionamento de alta qualidade
         Image imagemRedimensionada = imagemOriginal.getScaledInstance(22, 22, Image.SCALE_SMOOTH);
         this.bombaIcone = new ImageIcon(imagemRedimensionada);
     }
@@ -58,14 +54,14 @@ public class BotaoCampo extends JButton implements CampoObservador, MouseListene
 
     private void aplicarEstiloPadrao() {
         setBackground(BG_PADRAO);
+        setBorder(BorderFactory.createBevelBorder(0));
+        setIcon(null);
         setText("");
     }
 
     private void applicarEstiloExplodir() {
         setBackground(BG_EXPLODIR);
         setIcon(this.bombaIcone);
-        setText("");
-
     }
 
     private void aplicarEstiloMarcar() {

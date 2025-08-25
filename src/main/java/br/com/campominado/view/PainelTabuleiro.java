@@ -11,8 +11,17 @@ public class PainelTabuleiro extends JPanel {
         setLayout(new GridLayout(tabuleiro.getLinhas(), tabuleiro.getColunas()));
 
         tabuleiro.paraCadaCampo(c -> add(new BotaoCampo(c)));
-        tabuleiro.registarObservador(e ->{
-            //TODO mostar resultado pro usuário
+        tabuleiro.registarObservador(e -> {
+
+            SwingUtilities.invokeLater(() -> {
+                if (e.isGanhou()){
+                    JOptionPane.showMessageDialog(this, "Parabéns Você ganhou!!!" );
+                }else {
+                    JOptionPane.showMessageDialog(this, "GameOver!!!" );
+                }
+
+                tabuleiro.reiniciar();
+            });
         });
     }
 }
