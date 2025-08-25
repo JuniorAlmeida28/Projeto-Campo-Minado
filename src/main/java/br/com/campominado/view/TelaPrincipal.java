@@ -12,6 +12,7 @@ public class TelaPrincipal extends JFrame {
 
         setTitle("Campo Minado");
         setSize(690, 438);
+        setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
