@@ -1,4 +1,4 @@
-package br.com.campominado.model;
+package main.java.br.com.campominado.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,12 +7,12 @@ import java.util.function.Predicate;
 
 public class Tabuleiro implements CampoObservador {
 
-    private int linhas;
-    private int colunas;
-    private int minas;
+    private final int linhas;
+    private final int colunas;
+    private final int minas;
 
     private final List<Campo> campos = new ArrayList<>();
-    private final List<Consumer<Boolean>> observadores = new ArrayList<>();
+    private final List<Consumer<ResultadoEvento>> observadores = new ArrayList<>();
 
     public Tabuleiro(int linhas, int colunas, int minas) {
         this.linhas = linhas;
@@ -24,13 +24,24 @@ public class Tabuleiro implements CampoObservador {
         sortearMinas();
     }
 
-    public void registarObservador(Consumer<Boolean> observador) {
+    public void paraCadaCampo(Consumer<Campo> funcao){
+        campos.forEach(funcao);
+    }
+
+    public int getLinhas() {
+        return linhas;
+    }
+
+    public int getColunas() {
+        return colunas;
+    }
+
+    public void registarObservador(Consumer<ResultadoEvento> observador) {
         observadores.add(observador);
     }
 
     private void notificarObservador(Boolean resultado) {
-        observadores.stream()
-                .forEach(obs -> obs.accept(resultado));
+        observadores.stream().forEach(o -> o.accept(new ResultadoEvento(resultado)));
     }
 
     public void abrir(int linhas, int colunas) {
@@ -39,8 +50,6 @@ public class Tabuleiro implements CampoObservador {
                 .findFirst()
                 .ifPresent(c -> c.abrir());
     }
-
-
 
     public void alterarmarcacao(int linhas, int colunas) {
         campos.parallelStream()
@@ -93,7 +102,6 @@ public class Tabuleiro implements CampoObservador {
             mostrarMinas();
             notificarObservador(false);
         } else if (objetivoAlcancado()) {
-            System.out.println("Ganhou!!! :)");
             notificarObservador(true);
 
         }
@@ -101,6 +109,7 @@ public class Tabuleiro implements CampoObservador {
     public void mostrarMinas(){
         campos.stream()
                 .filter(c -> c.isMinado())
+                .filter(c -> !c.isMarcado())
                 .forEach(c -> c.setAberto(true));
     }
 }

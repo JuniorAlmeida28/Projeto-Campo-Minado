@@ -1,0 +1,6 @@
+package main.java.br.com.campominado.model;
+
+public enum CampoEvento {
+
+    ABRIR, MARCAR, DESMARCAR, EXPLODIR, REINICIAR
+}
